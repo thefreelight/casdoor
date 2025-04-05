@@ -31,6 +31,12 @@ import {CountryCodeSelect} from "../common/select/CountryCodeSelect";
 import * as PasswordChecker from "../common/PasswordChecker";
 import * as InvitationBackend from "../backend/InvitationBackend";
 
+const CustomLogo = () => {
+  return (
+    <img src="/img/logo.png" alt="Logo" width="120" style={{display: "block", margin: "0 auto"}} />
+  );
+};
+
 const formItemLayout = {
   labelCol: {
     xs: {
@@ -850,10 +856,10 @@ class SignupPage extends React.Component {
               {
                 Setting.renderHelmet(application)
               }
-              {
-                Setting.renderLogo(application)
-              }
-              <LanguageSelect languages={application.organizationObj.languages} style={{top: "55px", right: "5px", position: "absolute"}} />
+              <div style={{width: "100%", display: "flex", justifyContent: "center", marginBottom: "30px", marginTop: "20px", paddingLeft: "60px"}}>
+                <CustomLogo />
+              </div>
+              <LanguageSelect languages={application.organizationObj.languages} style={{top: "55px", right: "5px", position: "absolute", zIndex: 1000, cursor: "pointer", pointerEvents: "auto"}} />
               {
                 this.renderForm(application)
               }

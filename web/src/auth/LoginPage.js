@@ -38,6 +38,14 @@ import {RequiredMfa} from "./mfa/MfaAuthVerifyForm";
 import {GoogleOneTapLoginVirtualButton} from "./GoogleLoginButton";
 import * as ProviderButton from "./ProviderButton";
 import {goToLink} from "../Setting";
+
+// 替换为使用上传的图片
+const CustomLogo = () => {
+  return (
+    <img src="/img/logo.png" alt="Logo" width="120" style={{margin: "0 auto", display: "block"}} />
+  );
+};
+
 const FaceRecognitionCommonModal = lazy(() => import("../common/modal/FaceRecognitionCommonModal"));
 const FaceRecognitionModal = lazy(() => import("../common/modal/FaceRecognitionModal"));
 
@@ -265,6 +273,10 @@ class LoginPage extends React.Component {
   }
 
   onUpdateApplication(application) {
+    if (application) {
+      application.logo = "/img/logo.png";
+    }
+
     this.props.onUpdateApplication(application);
     for (const idx in application.providers) {
       const provider = application.providers[idx];
@@ -549,14 +561,12 @@ class LoginPage extends React.Component {
 
     if (signinItem.name === "Logo") {
       return (
-        <div key={resultItemKey} className="login-logo-box">
+        <div key={resultItemKey} className="login-logo-box" style={{textAlign: "center", position: "relative", marginBottom: "20px", zIndex: 1}}>
           <div dangerouslySetInnerHTML={{__html: ("<style>" + signinItem.customCss?.replaceAll("<style>", "").replaceAll("</style>", "") + "</style>")}} />
           {
             Setting.renderHelmet(application)
           }
-          {
-            Setting.renderLogo(application)
-          }
+          <CustomLogo />
         </div>
       );
     } else if (signinItem.name === "Back button") {
@@ -579,7 +589,7 @@ class LoginPage extends React.Component {
       }
 
       return (
-        <div key={resultItemKey} className="login-languages">
+        <div key={resultItemKey} className="login-languages" style={{position: "absolute", top: "0", right: "0", zIndex: 1000, cursor: "pointer", pointerEvents: "auto"}}>
           <div dangerouslySetInnerHTML={{__html: ("<style>" + signinItem.customCss?.replaceAll("<style>", "").replaceAll("</style>", "") + "</style>")}} />
           <LanguageSelect languages={application.organizationObj.languages} onClick={key => {this.setState({userLang: key});}} />
         </div>
@@ -833,53 +843,55 @@ class LoginPage extends React.Component {
       }
 
       return (
-        <Form
-          name="normal_login"
-          initialValues={{
-            organization: application.organization,
-            application: application.name,
-            autoSignin: true,
-            username: Conf.ShowGithubCorner ? "admin" : "",
-            password: Conf.ShowGithubCorner ? "123" : "",
-          }}
-          onFinish={(values) => {
-            this.onFinish(values);
-          }}
-          style={{width: `${loginWidth}px`}}
-          size="large"
-          ref={this.form}
-        >
-          <Form.Item
-            hidden={true}
-            name="application"
-            rules={[
-              {
-                required: true,
-                message: i18next.t("application:Please input your application!"),
-              },
-            ]}
+        <div style={{position: "relative"}}>
+          <Form
+            name="normal_login"
+            initialValues={{
+              organization: application.organization,
+              application: application.name,
+              autoSignin: true,
+              username: Conf.ShowGithubCorner ? "admin" : "",
+              password: Conf.ShowGithubCorner ? "123" : "",
+            }}
+            onFinish={(values) => {
+              this.onFinish(values);
+            }}
+            style={{width: `${loginWidth}px`, position: "relative", zIndex: 1}}
+            size="large"
+            ref={this.form}
           >
-          </Form.Item>
-          <Form.Item
-            hidden={true}
-            name="organization"
-            rules={[
-              {
-                required: true,
-                message: i18next.t("application:Please input your organization!"),
-              },
-            ]}
-          >
-          </Form.Item>
+            <Form.Item
+              hidden={true}
+              name="application"
+              rules={[
+                {
+                  required: true,
+                  message: i18next.t("application:Please input your application!"),
+                },
+              ]}
+            >
+            </Form.Item>
+            <Form.Item
+              hidden={true}
+              name="organization"
+              rules={[
+                {
+                  required: true,
+                  message: i18next.t("application:Please input your organization!"),
+                },
+              ]}
+            >
+            </Form.Item>
 
-          {
-            application.signinItems?.map(signinItem => this.renderFormItem(application, signinItem))
-          }
-        </Form>
+            {
+              application.signinItems?.map(signinItem => this.renderFormItem(application, signinItem))
+            }
+          </Form>
+        </div>
       );
     } else {
       return (
-        <div style={{marginTop: "20px"}}>
+        <div style={{marginTop: "20px", position: "relative"}}>
           <div style={{fontSize: 16, textAlign: "left"}}>
             {i18next.t("login:To access")}&nbsp;
             <a target="_blank" rel="noreferrer" href={application.homepageUrl}>

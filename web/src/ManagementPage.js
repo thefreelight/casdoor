@@ -245,11 +245,8 @@ function ManagementPage(props) {
     let textColor = "black";
     const twoToneColor = props.themeData.colorPrimary;
 
-    let logo = props.account.organization.logo ? props.account.organization.logo : Setting.getLogo(props.themeAlgorithm);
+    const logo = "/img/logo.png";
     if (props.themeAlgorithm.includes("dark")) {
-      if (props.account.organization.logoDark) {
-        logo = props.account.organization.logoDark;
-      }
       textColor = "white";
     }
 

@@ -30,7 +30,8 @@ export const ThemeDefault = {
   isCompact: false,
 };
 
-export const CustomFooter = null;
+// 空React片段，完全移除底部版权信息
+export const CustomFooter = <></>;
 
-// Blank or null to hide Ai Assistant button
-export const AiAssistantUrl = "https://ai.casbin.com";
+// 禁用AI助手按钮
+export const AiAssistantUrl = "";

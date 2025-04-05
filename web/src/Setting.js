@@ -94,11 +94,8 @@ export function getAlgorithmNames(themeData) {
 }
 
 export function getLogo(themes) {
-  if (themes.includes("dark")) {
-    return `${StaticBaseUrl}/img/casdoor-logo_1185x256_dark.png`;
-  } else {
-    return `${StaticBaseUrl}/img/casdoor-logo_1185x256.png`;
-  }
+  // 不管主题如何，都返回自定义logo路径
+  return "/img/logo.png";
 }
 
 export const OtherProviderInfo = {
@@ -1532,7 +1529,7 @@ export function getUserCommonFields() {
 }
 
 export function getDefaultFooterContent() {
-  return `Powered by <a target="_blank" href="https://casdoor.org" rel="noreferrer"><img style="padding-bottom: 3px" height="20" alt="Casdoor" src="${StaticBaseUrl}/img/casdoor-logo_1185x256.png"/></a>`;
+  return "";
 }
 
 export function getEmptyFooterContent() {
